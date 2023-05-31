@@ -1,0 +1,74 @@
+<style>
+
+    nav {
+        display: grid;
+        grid-template-areas: 'redirect searchbar';
+        grid-template-columns: 3fr 1fr;
+        grid-template-rows: 100%;
+        padding: 10px;
+
+        max-height: 5vh;
+
+        background-color:#5800CC;
+    }
+
+    nav a {
+        text-decoration: none;
+        color: white;
+        padding: 5px;
+    }
+
+    nav a:hover {
+        background-color: aliceblue;
+        color: black;
+
+    }
+
+    div#redirect {
+        grid-area: redirect;
+
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        height: 100%;
+    }
+
+    div#search {
+        grid-area: searchbar;
+    }
+
+    input {
+        border-radius: 10px;
+        width: 90%;
+        height: 15px;
+        padding: 5px;
+        border: none;
+        outline: none;
+        text-indent: 5px;
+    }
+
+
+
+
+</style>
+
+<nav>
+    <div id="redirect">
+        <a href="{% url 'home' %}">Home</a>
+
+        {% if user.is_authenticated %}
+            <p>{{user.username}}</p>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Signup</a>
+        {% endif %}
+    </div>
+
+
+    <div id="search">
+        <form method="GET" action="{% url 'home' %}">
+            <input type="text" name="q" placeholder="Search chats...">
+        </form>
+    </div>
+</nav>

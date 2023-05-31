@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{%block content%}
+
+<div class="room-container">
+    <div>
+        <div class="chat-container">
+            <div class="chat-talk">
+                {% for message in msg %}
+                    <div>
+                        <div class="messages">
+                            <p style="color: black;"><strong>{{message.user}}</strong></p>
+                            <p>{{message.body}}</p>
+                        </div>
+
+                        <div>
+                            <small>{{message.created|timesince}} ago</small>
+                            {% if message.user == request.user %}
+                            <a href="{% url 'delete_message' message.id %}">Delete</a>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div>
+                {% if request.user.is_authenticated %}
+                <form class="send-message" action="" method="POST">
+                    {% csrf_token %}
+                    <input class="write-message" type="text" name="body" placeholder="Type here..." autocomplete="off">
+                    <input class="send-button" type="submit" value="">
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-info">
+        <h1 style="word-wrap: break-word;">{{room.name}}</h1>
+        <div class="chat-description">
+            <h2 style="text-align: center;">Description</h2>
+            <p style="word-wrap: break-word;">{{room.description}}</p>
+        </div>
+        <div style="height: 100%;">
+            <h2 style="text-align: center;">Participants</h2>
+            <div class="participants">
+                {% for user in participants %}
+                <p>@{{user.username}}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

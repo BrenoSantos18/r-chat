@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{%block content%}
+
+<style>
+    .home-content {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 15% 60% 25%;
+        grid-template-rows: 92.8vh;
+    }
+
+
+</style>
+
+
+<div class="home-content">
+    <div class="topics">
+        <h1>Browse Topics</h1>
+
+        <div class="show-topics">
+            <a href="{% url 'home' %}">All</a>
+            {% for topic in topics %}
+            <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="list">
+        <div class="create">
+            <a href="{% url 'create_room'%} ">+ Create new chat</a>
+        </div>
+
+        <div class="chats">
+            <p id="chat-count">{{room_count}} chatrooms were found.</p>
+            {% for chat in room %}
+                <div class="chat-list">
+                    <div class="chat-info">
+                        <a href="{% url 'chatroom' chat.id %}?q={{chat.name}}">
+                            <p><span>@{{chat.host}}</span>
+                            <small>Created {{chat.created|timesince}} ago</small></p>
+                            <h2>{{chat.name}}</h2>
+                            <small>{{chat.topic}}</small>
+                        </a>
+                    </div>
+
+
+                    {% if request.user == chat.host %}
+                        <div class="config-chat">
+                            <a href="{% url 'update_room' chat.id %}">Edit</a>
+                            <a href="{% url 'delete_room' chat.id%}">Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="recent">
+        <h3>Recent</h3>
+        {% for new in recent %}
+            <div class="recent-created">
+                <a href="{% url 'chatroom' new.id %}?q={{new.name}}">
+                    <p>@{{new.host}} just created a new room named "{{new.name}}"!</p>
+                    <p class="description"><small>{{new.description}}</small></p>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

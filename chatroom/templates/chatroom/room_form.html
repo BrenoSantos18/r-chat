@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+.room-form {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 90vh;
+}
+
+
+input#id_name {
+    background-color: transparent;
+    width: 500px;
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 0;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+    text-align: center;
+}
+
+
+textarea#id_description {
+    height: 300px;
+    width: 500px;
+    background-color: rgba(0, 0, 0, 0.479);
+    color: aliceblue;
+    padding: 10px;
+    outline: none;
+    border: none;
+}
+.send-form {
+    width: 100px;
+    height: 50px;
+}
+
+</style>
+
+<div class="room-form">
+    <form class="form" action="" method="post">
+        {% csrf_token %}
+        <p>{{form.host}}</p>
+        <p>{{form.name}}</p>
+        <p>{{form.topic}}</p>
+        <p>{{form.description}}</p>
+        <input class="send-form" type="submit" value="Submit">
+    </form>
+</div>
+
+
+{% endblock content %}
