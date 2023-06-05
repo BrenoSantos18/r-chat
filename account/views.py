@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Q
+
 
 # Create your views here.
 
@@ -58,3 +60,11 @@ def signupUser(request):
 
     context = {'page':page, 'form':form}
     return render(request, 'account/login-register.html', context)
+
+
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    room = user.room_set.all()
+    context = {'user':user, 'room':room}
+
+    return render(request, 'account/user-profile.html', context)

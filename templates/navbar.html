@@ -1,3 +1,5 @@
+{% load static %}
+
 <style>
 
     nav {
@@ -5,24 +7,18 @@
         grid-template-areas: 'redirect searchbar';
         grid-template-columns: 3fr 1fr;
         grid-template-rows: 100%;
-        padding: 10px;
+        padding: 10px 10px 10px 20px;
 
         max-height: 5vh;
 
         background-color:#5800CC;
     }
 
-    nav a {
-        text-decoration: none;
-        color: white;
-        padding: 5px;
+    nav img {
+        height: 30px;
+        width: 40px;
     }
 
-    nav a:hover {
-        background-color: aliceblue;
-        color: black;
-
-    }
 
     div#redirect {
         grid-area: redirect;
@@ -39,7 +35,7 @@
 
     input {
         border-radius: 10px;
-        width: 90%;
+        width: 80%;
         height: 15px;
         padding: 5px;
         border: none;
@@ -50,25 +46,85 @@
 
 
 
+
+    button#account-nav {
+        background-image: url('{% static "imagens/profile.png" %}');
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: none;
+    }
+
+    button#account-nav:hover {
+        background-color: black;
+    }
+
+    div#div-hidden {
+        display: none;
+        width: 100px;
+        position: absolute;
+        top: 55px;
+        background-color: rgba(255, 255, 255, 0.849);
+    }
+
+    div#div-hidden a{
+        padding: 5px;
+        color: black;
+        text-decoration: none;
+        border: 1px solid black;
+    }
+
+    div#div-hidden a:hover {
+        background-color: black;
+        color: white;
+    }
+
+
 </style>
 
 <nav>
     <div id="redirect">
-        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'home' %}"><img src="{% static 'imagens/R-chat-logo-no-background.png' %}" alt=""></a>
 
-        {% if user.is_authenticated %}
-            <p>{{user.username}}</p>
-            <a href="{% url 'logout' %}">Logout</a>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'signup' %}">Signup</a>
-        {% endif %}
+        <button id="account-nav">
+            <div id="div-hidden">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'user-profile' user.id %}">{{user.username}}</a>
+                        <a href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'signup' %}">Signup</a>
+                    {% endif %}
+                </div>
+        </button>
+
     </div>
 
 
     <div id="search">
         <form method="GET" action="{% url 'home' %}">
-            <input type="text" name="q" placeholder="Search chats...">
+
+            <input autocomplete="off" type="text" name="q" id="q" placeholder="Search chats...">
         </form>
     </div>
+
+    <script>
+        let button = document.getElementById('account-nav')
+
+        button.addEventListener('click', function(){
+            let div_hidden = document.getElementById('div-hidden')
+
+            if (div_hidden.style.display == 'none'){
+                div_hidden.style.display = "flex"
+                div_hidden.style.flexDirection = "column"
+            }
+            else{
+                div_hidden.style.display = "none"
+            }
+
+        }
+        )
+
+    </script>
+
 </nav>

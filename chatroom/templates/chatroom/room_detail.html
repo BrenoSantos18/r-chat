@@ -4,8 +4,27 @@
 
 <div>
     <div>
-        <p>{{room.name}}</p>
+        <h1>{{room.name}}</h1>
+
+        <h2>About</h2>
+        <p>Created by: {{room.host}}</p>
+        <p>Created at: {{room.created}}</p>
+
+        <h2>Description</h2>
         <p>{{room.description}}</p>
+
+        <h2>Participants</h2>
+        {% if amount > 1 %}
+        <p>{{amount}} users</p>
+        {% else %}
+        <p>{{amount}} user</p>
+        {% endif %}
+
+        <ul>
+            {% for user in participants %}
+            <li><a style="text-decoration: none;color: white;" href="{% url 'user-profile' user.id %}">@{{user}}</a></li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 

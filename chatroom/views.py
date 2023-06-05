@@ -10,13 +10,13 @@ from .forms import RoomForm
 def chatView(request):
     #filter the messages by the topic
     q = request.GET.get('q') if request.GET.get('q') != None else ''
-    recent = Room.objects.all()
     room = Room.objects.filter(
         Q(topic__name__icontains=q) |
         Q(name__icontains=q)
         )
     topics = Topic.objects.all()
 
+    recent = Room.objects.all()
     room_count = room.count()
 
 
@@ -25,10 +25,14 @@ def chatView(request):
     return render(request, 'chatroom/home.html', context)
 
 
+def chatDetail(request, pk):
+    room = Room.objects.get(id=pk)
+    participants = room.participants.all()
+    amount = participants.count()
+    number = 0
+    context = {'room':room, 'participants':participants, 'amount':amount, 'number':number}
+    return render(request, 'chatroom/room_detail.html', context)
 
-class ChatDetailView(DetailView):
-    model = Room
-    template_name = 'chatroom/room_detail.html'
 
 
 def chatRoom(request, pk):

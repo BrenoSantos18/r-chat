@@ -7,7 +7,34 @@
         width: 100%;
         display: grid;
         grid-template-columns: 15% 60% 25%;
-        grid-template-rows: 92.8vh;
+        grid-template-rows: 92vh;
+    }
+
+    @keyframes enter{
+        from{
+            opacity: 0;
+        }
+        to{
+            opacity: 1;
+        }
+    }
+
+
+    .chat-list {
+        animation: enter 0.5s ease-in-out;
+    }
+
+    .hidden {
+        display: none;
+        position: absolute;
+        background-color: aliceblue;
+        color: black;
+        width: 50%;
+        height: 50%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        padding: 10px;
     }
 
 
@@ -36,21 +63,32 @@
             {% for chat in room %}
                 <div class="chat-list">
                     <div class="chat-info">
-                        <a href="{% url 'chatroom' chat.id %}?q={{chat.name}}">
-                            <p><span>@{{chat.host}}</span>
+                        <a style="padding: 0;" href="{% url 'user-profile' chat.host.id %}">
+                            <p>{{chat.host}}</p>
+                        </a>
+                        <a id="all-post" href="{% url 'chatroom' chat.id %}?q={{chat.name}}">
                             <small>Created {{chat.created|timesince}} ago</small></p>
                             <h2>{{chat.name}}</h2>
                             <small>{{chat.topic}}</small>
                         </a>
                     </div>
 
+                    <div class="config-chat">
+                        {% if request.user == chat.host %}
+                        <a href="{% url 'update_room' chat.id %}">Edit</a>
+                        <a href="{% url 'delete_room' chat.id%}">Delete</a>
+                        {% endif %}
+                        <a href="{% url 'about_room' chat.id%}">See more</a>
+                    </div>
 
-                    {% if request.user == chat.host %}
-                        <div class="config-chat">
-                            <a href="{% url 'update_room' chat.id %}">Edit</a>
-                            <a href="{% url 'delete_room' chat.id%}">Delete</a>
-                        </div>
-                    {% endif %}
+                    <div class="hidden">
+                        <h1>{{chat.name}}</h1>
+                        <p>Created by: {{chat.host}}</p>
+                        <p>Created at: {{chat.created}}</p>
+
+                        <h2>Description</h2>
+                        <p>{{chat.description}}</p>
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -68,5 +106,6 @@
         {% endfor %}
     </div>
 </div>
+
 
 {% endblock content %}

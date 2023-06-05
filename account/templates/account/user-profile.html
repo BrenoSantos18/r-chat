@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .profile-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        height: 92.8vh;
+    }
+
+    .about-user {
+        border-right: 2px solid black;
+        height: max;
+        padding: 15px;
+    }
+
+    .user-rooms {
+        padding: 15px;
+        height: max;
+        overflow-y: scroll;
+    }
+
+    .user-rooms::-webkit-scrollbar{
+        display: none;
+    }
+
+    .rooms {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .rooms a{
+        background-color: rgba(0, 0, 0, 0.226);
+        padding: 5px;
+        text-decoration: none;
+        color: white;
+    }
+
+    p {
+        word-wrap: break-word;
+    }
+
+    .rooms small {
+        word-wrap: break-word;
+        background-color: rgba(0, 0, 0, 0.507);
+    }
+
+
+</style>
+
+<div class="profile-container">
+    <div class="about-user">
+        <h1>Profile</h1>
+        <h2>@{{user.username}}</h2>
+        <small>{{user.email}}</small>
+    </div>
+    <div class="user-rooms">
+        <h1>My Rooms</h1>
+        <div class="rooms">
+        {% for chat in room %}
+            <a href="{% url 'chatroom' chat.id %}">
+                <p>{{chat.name}}</p>
+                <small>{{chat.description}}</small>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock %}

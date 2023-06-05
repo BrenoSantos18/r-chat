@@ -31,6 +31,7 @@ body {
 
 }
 
+
 .list {
     height: 96.8%;
     display: flex;
@@ -38,6 +39,7 @@ body {
     flex-direction: column;
     background-image: linear-gradient(rgba(0, 0, 0, 0.829), rgba(24, 23, 23, 0.822),rgba(26, 25, 25, 0.842));
     gap: 5px;
+
 }
 
 .recent{
@@ -76,6 +78,7 @@ body {
     gap: 13px;
     overflow-y: scroll;
     height: 90%;
+
 }
 
 p#chat-count {
@@ -93,6 +96,7 @@ p#chat-count {
     display: flex;
     flex-direction: column;
     box-shadow:0px 5px var(--color1);
+    animation: enter 2s ease-in-out;
 }
 
 .chat-info {
@@ -102,7 +106,7 @@ p#chat-count {
 }
 
 .chat-info a{
-    padding: 10px;
+    padding: 0px 10px 10px 10px;
     color: white;
 }
 

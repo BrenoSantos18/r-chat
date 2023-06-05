@@ -1,35 +1,139 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 
-{% if page == 'login' %}
-    <div>
-        <form action="" method="POST">
-            {% csrf_token %}
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" placeholder="Enter Username">
-            <br>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="Enter Password">
-            <br>
+<style>
 
-            <input type="submit" value="Login">
+    @keyframes entering-down {
+    from {
+        opacity: 0;
+        transform: translateY(-200px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    }
+
+    @keyframes entering-left {
+    from {
+        opacity: 0;
+        transform: translateX(-200px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    }
+
+    .register-container {
+        display: grid;
+        grid-template-columns: 60% 40%;
+        height: 92.5vh;
+    }
+
+    div#left {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        animation: entering-left 0.5s ease-in-out;
+    }
+
+    div#right {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        animation: entering-down 0.5s ease-in-out;
+    }
+
+    div#right img{
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+
+    .form-container {
+        width: 60%;
+        height: 80%;
+        background-color: rgba(0, 0, 0, 0.301);
+        color: white;
+        display: grid;
+        grid-template-rows: 3fr 1fr;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+
+    }
+
+    .register {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .redirect-form{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .send-form {
+        width: 100px;
+        height: 25px;
+    }
+
+
+</style>
+
+<div class="register-container">
+    <div id="left">
+        {% if page == 'login' %}
+        <form class="form-container" action="" method="POST">
+            {% csrf_token %}
+            <div class="register">
+                <label for="username">Username</label>
+                <input autocomplete="off" type="text" name="username" id="username" placeholder="Enter Username">
+                <br>
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter Password">
+                <br>
+                <input class="send-form" type="submit" value="Login">
+            </div>
+            <div class="redirect-form">
+                <p>Haven't register yet?</p>
+                <a href="{% url 'signup' %}">Register</a>
+            </div>
         </form>
 
-        <p>Haven't register yet?</p>
-        <a href="{% url 'signup' %}">Register</a>
-    </div>
-{% elif page == 'register' %}
-    <div>
-        <form action="" method="POST">
+        {% elif page == 'register' %}
+        <form class="form-container" action="" method="POST">
             {% csrf_token %}
-            {{form.as_p}}
-
-            <input type="submit" value="Register">
+            <div class="register">
+                {{form.as_p}}
+                <input class="send-form" type="submit" value="Register">
+            </div>
+            <div class="redirect-form">
+                <p>Already have an account?</p>
+                <a href="{% url 'login' %}">Login</a>
+            </div>
         </form>
-        <p>Already have an account?</p>
-        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
     </div>
-{% endif %}
+    <div id="right">
+        <img src="{% static 'imagens/register-image.jpg' %}" alt="">
+    </div>
+</div>
 
 {% endblock content %}
