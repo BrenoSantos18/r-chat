@@ -10,7 +10,7 @@ sudo apt install python3-full python3-venv
 python3 -m venv venv
 source venv/bin/activate
 
-## Instale o Djando
+## Instale o Django
 pip install Django==6.0.1
 
 ## Inicie o projeto
