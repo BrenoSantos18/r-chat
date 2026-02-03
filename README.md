@@ -1,7 +1,5 @@
 This is a platform created in Python, using Django framework. It's a place to talk to your friends, being able do create different chatrooms.
 
-Esse é um projeto criado em Django puro. Uma plataforma aonde pode ser criado chats para conversar com seus amigos.
-
 # Setup
 
 ## Clone the project
